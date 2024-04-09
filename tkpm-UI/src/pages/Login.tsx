@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,8 +7,15 @@ function Login() {
   const [password, setPassword] = useState(() => "");
   const navigate = useNavigate();
 
-  const handleLogin = (username: string, password: string) => {
-    if (username == 'admin' && password == '123') {
+  const handleLogin = async (username: string, password: string) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/Auth/login`, 
+      null, 
+      { params: { username: username, password: password } }
+    );
+
+    if (response !== null) {
+      localStorage.setItem("userId", response.data.id)
       navigate('/home');
     }
   };

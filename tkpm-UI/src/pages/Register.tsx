@@ -1,8 +1,34 @@
+import axios from "axios";
+import { useState } from "react";
+
 function Register() {
+  const [username, setUsername] = useState(() => "");
+  const [password, setPassword] = useState(() => "");
+  const [confirmPassword, setConfirmPasswrd] = useState(() => "");
+  const [email, setEmail] = useState(() => "");
+
+  const handleRegister = async (username:string, email:string, password:string, confirmPassword:string) => {
+    var response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/Auth/register`, 
+      null, 
+      { 
+        params: { 
+          username: username,
+          email: email, 
+          password: password,
+          confirmPassword: confirmPassword
+        } 
+      }
+    );
+
+    if (response.status === 200) {
+      console.log("hihi");
+    }
+  }
+
   return (
-    <div>
     <section className="vh-100 gradient-custom" style={{
-        background: "#6a11cb linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))"
+        background: "linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))"
     }}>
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
@@ -15,33 +41,52 @@ function Register() {
                     Create An Account
                   </p>
 
-                  <div className="mb-4">
-                    <input
-                      type="email"
-                      id="typeEmailX"
-                      className="form-control form-control-lg"
-                      placeholder="Email"
-                    />
+                  <div className="row">
+                    <div className="col col-md-6 mb-4">
+                      <input
+                        type="username"
+                        id="typeUsernameX"
+                        className="form-control form-control-md"
+                        placeholder="Username"
+                        onChange={e => setUsername(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="col col-md-6 mb-4">
+                      <input
+                        type="email"
+                        id="typeEmailX"
+                        className="form-control form-control-md"
+                        placeholder="Email"
+                        onChange={e => setEmail(e.target.value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="mb-4">
                     <input
                       type="password"
                       id="typePasswordX"
-                      className="form-control form-control-lg"
+                      className="form-control form-control-md"
                       placeholder="Password"
+                      onChange={e => setPassword(e.target.value)}
                     />
                   </div>
 
-                  <p className="small mb-5 pb-lg-2">
-                    <a className="text-white-50" href="#!">
-                      Forgot password?
-                    </a>
-                  </p>
+                  <div className="mb-4">
+                    <input
+                      type="password"
+                      id="typeConfirmPasswordX"
+                      className="form-control form-control-md"
+                      placeholder="Confirm Password"
+                      onChange={e => setConfirmPasswrd(e.target.value)}
+                    />
+                  </div>
 
                   <button
                     className="btn btn-outline-light btn-lg px-5"
                     type="submit"
+                    onClick={() => handleRegister(username, email, password, confirmPassword)}
                   >
                     Register
                   </button>
@@ -49,9 +94,9 @@ function Register() {
 
                 <div>
                   <p className="mb-0">
-                    Don't have an account?{" "}
-                    <a href="#!" className="text-white-50 fw-bold">
-                      Sign Up
+                    If you have your account?{" "}
+                    <a href="/" className="text-white-50 fw-bold">
+                      Login
                     </a>
                   </p>
                 </div>
@@ -61,7 +106,6 @@ function Register() {
         </div>
       </div>
     </section>
-    </div>
   );
 }
 
