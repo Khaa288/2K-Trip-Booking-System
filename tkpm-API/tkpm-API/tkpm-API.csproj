@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>tkpm_server</RootNamespace>
+    <RootNamespace>tkpm_API</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
