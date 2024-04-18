@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tkpm_API.Data;
-using tkpm_server.DTO;
-using tkpm_API.Models;
+using tkpm_API.DTO.Request;
+using tkpm_API.DTO.Response;
+using tkpm_API.Entities;
 using tkpm_server.Utilities.Enums;
 
 namespace tkpm_server.Controllers
@@ -19,9 +20,9 @@ namespace tkpm_server.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login (string username, string password)
+        public async Task<ActionResult> Login ([FromBody] LoginRequest request)
         {
-            var user = await _dbcontext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+            var user = await _dbcontext.Users.FirstOrDefaultAsync(u => u.Username == request.Username && u.Password == request.Password);
 
             if (user is not null)
             {
@@ -37,12 +38,12 @@ namespace tkpm_server.Controllers
             return BadRequest();
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult> Register(string username, string email, string password, string confirmPassword)
+        [HttpPost("register/customer")]
+        public async Task<ActionResult> RegisterCustomer([FromBody] RegisterRequest request)
         {
-            var user = await _dbcontext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Email == email);
+            var user = await _dbcontext.Users.FirstOrDefaultAsync(u => u.Username == request.Username && u.Email == request.Email);
 
-            if (password != confirmPassword)
+            if (request.Password != request.ConfirmPassword)
             {
                 return BadRequest();
             }
@@ -55,15 +56,49 @@ namespace tkpm_server.Controllers
             await _dbcontext.Users.AddAsync(
                 new User
                 {
-                    Username = username,
-                    Password = password,
-                    Email = email,
-                    RoleName = UserRole.USER.ToString(),
+                    Username = request.Username,
+                    Password = request.Password,
+                    Email = request.Email,
+                    FullName = request.FullName,
+                    RoleId = (int)UserRole.CUSTOMER
                 }
             );
             await _dbcontext.SaveChangesAsync();
 
-            return Ok(UserRole.ADMIN.ToString());
+            return Ok();
+        }
+
+        [HttpPost("register/driver")]
+        public async Task<ActionResult> RegisterDriver([FromBody] RegisterDriverRequest request)
+        {
+            var driver = await _dbcontext.Drivers.FirstOrDefaultAsync(u => u.Username == request.Username && u.Email == request.Email);
+
+            if (request.Password != request.ConfirmPassword)
+            {
+                return BadRequest();
+            }
+
+            if (driver is not null)
+            {
+                return BadRequest("User exists");
+            }
+
+            var drivers = new Driver
+            {
+                Username = request.Username,
+                Password = request.Password,
+                Email = request.Email,
+                FullName = request.FullName,
+                RegisterVehicleId = request.RegisterVehicleId,
+                RegisterLocationId = request.RegisterLocationId,
+                RoleId = (int)UserRole.DRIVER
+            };
+
+            await _dbcontext.Drivers.AddAsync(
+                drivers
+            );
+            await _dbcontext.SaveChangesAsync();
+            return Ok();
         }
     }
 }
