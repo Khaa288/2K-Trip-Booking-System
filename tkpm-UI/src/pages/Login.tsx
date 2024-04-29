@@ -1,30 +1,33 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../apis/authenticationApi";
 
 function Login() {
   const [username, setUsername] = useState(() => "");
   const [password, setPassword] = useState(() => "");
   const navigate = useNavigate();
 
-  const handleLogin = async (username: string, password: string) => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/Auth/login`, 
-      null, 
-      { params: { username: username, password: password } }
-    );
+  const [login] = useLoginMutation();
 
-    if (response !== null) {
-      localStorage.setItem("userId", response.data.id)
+  const handleLogin = async (username: string, password: string) => {
+    const response : LoginResponse = await login({
+      username: username,
+      password: password
+    })
+
+    if (response.data) {
+      localStorage.setItem("userId", `${response.data?.id}`)
+      console.log(response.data)
       navigate('/home');
+    }
+    else if (response.error) {
+      console.log(response.error);
     }
   };
 
   return (
     <div>
-    <section className="vh-100 gradient-custom" style={{
-        background: "#6a11cb linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))",
-    }}>
+    <section className="vh-100 gradient-custom" style={{backgroundColor: "#8fc4b7"}}>
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -39,8 +42,8 @@ function Login() {
                   <div className="mb-4">
                     <input
                       type="email"
-                      className="form-control form-control-lg"
-                      placeholder="Email"
+                      className="form-control form-control-md"
+                      placeholder="Username"
                       value={username}
                       onChange={(e) => {setUsername(e.target.value)}}
                     />
@@ -49,7 +52,7 @@ function Login() {
                   <div className="mb-4">
                     <input
                       type="password"
-                      className="form-control form-control-lg"
+                      className="form-control form-control-md"
                       placeholder="Password"
                       value={password}
                       onChange={(e) => {setPassword(e.target.value)}}
@@ -74,8 +77,15 @@ function Login() {
                 <div>
                   <p className="mb-0">
                     Don't have an account?{" "}
-                    <a href="/register" className="text-white-50 fw-bold">
+                    <a href="/customer/register" className="text-white-50 fw-bold">
                       Sign Up
+                    </a>
+                  </p>
+
+                  <p className="mb-0">
+                    Or want to be our partner?{" "}
+                    <a href="/driver/register" className="text-white-50 fw-bold">
+                      Click here
                     </a>
                   </p>
                 </div>
