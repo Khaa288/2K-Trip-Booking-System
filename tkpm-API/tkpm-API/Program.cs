@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using tkpm_API.Data;
+using tkpm_API.Helpers;
+using tkpm_API.Services.Authentication;
+using tkpm_API.Services.Locations;
+using tkpm_API.Services.VehicleTypes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +17,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
 builder.Services.AddCors();
+
+// Bussiness Access Layer Services
+builder.Services.AddScoped<IUserManager, UserManager>();
+builder.Services.AddScoped<IVehicleTypeManager, VehicleTypeManager>();
+builder.Services.AddScoped<ILocationManager, LocationManager>();
 
 var app = builder.Build();
 

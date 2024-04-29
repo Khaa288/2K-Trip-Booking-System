@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using tkpm_API.Data;
 using tkpm_API.DTO.Request;
 using tkpm_API.DTO.Response;
-using tkpm_API.Entities;
-using tkpm_server.Utilities.Enums;
+using tkpm_API.Services.Authentication;
 
 namespace tkpm_server.Controllers
 {
@@ -12,36 +9,24 @@ namespace tkpm_server.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AppDbContext _dbcontext;
+        private readonly IUserManager _userManager;
 
-        public AuthController(AppDbContext dbcontext)
+        public AuthController(IUserManager userManager)
         {
-            _dbcontext = dbcontext;
+            _userManager = userManager;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login ([FromBody] LoginRequest request)
         {
-            var user = await _dbcontext.Users.FirstOrDefaultAsync(u => u.Username == request.Username && u.Password == request.Password);
-
-            if (user is not null)
-            {
-                var dto = new LoginDTO
-                {
-                    Id = user.Id,
-                    Username = user.Username!,
-                };
-
-                return Ok(dto);
-            }
-
-            return BadRequest();
+            var user = await _userManager.GetLoginUser(request.Username, request.Password);
+            return user is not null ? Ok(user) : BadRequest();
         }
 
         [HttpPost("register/customer")]
         public async Task<ActionResult> RegisterCustomer([FromBody] RegisterRequest request)
         {
-            var user = await _dbcontext.Users.FirstOrDefaultAsync(u => u.Username == request.Username && u.Email == request.Email);
+            var user = await _userManager.GetRegisterUser(request.Username, request.Email);
 
             if (request.Password != request.ConfirmPassword)
             {
@@ -53,25 +38,14 @@ namespace tkpm_server.Controllers
                 return BadRequest("User exists");
             }
 
-            await _dbcontext.Users.AddAsync(
-                new User
-                {
-                    Username = request.Username,
-                    Password = request.Password,
-                    Email = request.Email,
-                    FullName = request.FullName,
-                    RoleId = (int)UserRole.CUSTOMER
-                }
-            );
-            await _dbcontext.SaveChangesAsync();
-
+            await _userManager.CreateCustomer(request);
             return Ok();
         }
 
         [HttpPost("register/driver")]
         public async Task<ActionResult> RegisterDriver([FromBody] RegisterDriverRequest request)
         {
-            var driver = await _dbcontext.Drivers.FirstOrDefaultAsync(u => u.Username == request.Username && u.Email == request.Email);
+            var driver = await _userManager.GetRegisterUser(request.Username, request.Email);
 
             if (request.Password != request.ConfirmPassword)
             {
@@ -83,21 +57,7 @@ namespace tkpm_server.Controllers
                 return BadRequest("User exists");
             }
 
-            var drivers = new Driver
-            {
-                Username = request.Username,
-                Password = request.Password,
-                Email = request.Email,
-                FullName = request.FullName,
-                RegisterVehicleId = request.RegisterVehicleId,
-                RegisterLocationId = request.RegisterLocationId,
-                RoleId = (int)UserRole.DRIVER
-            };
-
-            await _dbcontext.Drivers.AddAsync(
-                drivers
-            );
-            await _dbcontext.SaveChangesAsync();
+            await _userManager.CreateDriver(request);
             return Ok();
         }
     }
