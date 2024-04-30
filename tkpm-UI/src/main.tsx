@@ -11,6 +11,7 @@ import Error from './pages/Error';
 import RegisterDriver from './pages/RegisterDriver';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
+import { MapProvider } from 'react-map-gl';
 
 const router = createBrowserRouter([
   {
@@ -37,8 +38,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <MapProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </MapProvider>
   </React.StrictMode>,
 )

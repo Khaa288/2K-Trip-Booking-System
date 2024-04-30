@@ -16,7 +16,7 @@ function Login() {
     })
 
     if (response.data) {
-      localStorage.setItem("userId", `${response.data?.id}`)
+      localStorage.setItem("user", JSON.stringify(response.data))
       console.log(response.data)
       navigate('/home');
     }
