@@ -1,5 +1,7 @@
-import LocationSelection from "../components/Customer/LocationSelection"
-import VehicleTypeSelection from "../components/Customer/VehicleTypeSelection"
+import TripDriverDetail from "../components/Customer/TripDriverDetail"
+import TripDetail from "../components/Customer/TripDetail"
+import TripLocationSelection from "../components/Customer/TripLocationSelection"
+import TripVehicleTypeSelection from "../components/Customer/TripVehicleTypeSelection"
 import Header from "../layouts/Header"
 
 function Home() {
@@ -13,7 +15,9 @@ function Home() {
           user.roleId === 1 ? (<div>Admin</div>) :
           (user.roleId) === 2 ? (
             //<VehicleTypeSelection/>
-            <LocationSelection/>
+            //<TripLocationSelection/>
+            //<TripDetail/>
+            <TripDriverDetail/>
           ) :
           (user.roleId) === 3 ? (<div>Driver</div>) :
           (<div>Operator</div>)
