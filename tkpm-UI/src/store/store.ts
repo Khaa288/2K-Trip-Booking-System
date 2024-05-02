@@ -3,10 +3,12 @@ import { loginReducer } from './loginSlices'
 import { authenticationApi } from '../apis/authenticationApi'
 import { locationApi } from '../apis/locationApi'
 import { vehicleTypeApi } from '../apis/vehicleTypeApi'
+import { customerTripReducer } from './customerTripSlices'
 
 export const store = configureStore({
   reducer: {
     loginStore: loginReducer,
+    customerTripStore: customerTripReducer,
     [authenticationApi.reducerPath]: authenticationApi.reducer,
     [locationApi.reducerPath]: locationApi.reducer,
     [vehicleTypeApi.reducerPath]: vehicleTypeApi.reducer

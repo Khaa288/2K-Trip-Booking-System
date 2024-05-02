@@ -1,29 +1,63 @@
 import { useState } from "react";
 import { LocationMap } from "../Common/LocationMap"
 import * as maptilerClient from '@maptiler/client';
+import { useDispatch } from "react-redux";
+import { setIsTripDetailSelected, setLocationCoordinates, setLocationName, setNotes, setPaymentMethod, setVehicleType } from "../../store/customerTripSlices";
+import { GeocodingSearchResult } from "@maptiler/sdk";
 
 function LocationSelection() {
   const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
+  const [dest, setDest] = useState("");
+  const [payment, setPayment] = useState("Other");
+  const [note, setNote] = useState("Other");
   const [isSelectLocation, setIsSelectLocation] = useState(false);
 
-  const handleConfirmClick = async (origin: string, destination: string) => {
-    if (origin !== null && destination !== null) {
-        // const originLocation = await maptilerClient.geocoding.forward(origin, {
-        //     apiKey: import.meta.env.VITE_MAPTILER_API_KEY,
-        //     limit: 1,
-        //     country: ['vn']
-        // });
-    
-        // const destinationLocation = await await maptilerClient.geocoding.forward(destination, {
-        //     apiKey: import.meta.env.VITE_MAPTILER_API_KEY,
-        //     limit: 1,
-        //     country: ['vn']
-        // });
-    
-        // console.log(originLocation);
-        // console.log(destinationLocation);
-        setIsSelectLocation(!isSelectLocation);
+  const dispatch = useDispatch();
+
+  const handleCancelClick = () => {
+    dispatch(setVehicleType({vehicleTypeId: null}));
+    dispatch(setLocationCoordinates({startPositionCoordinates: null, endPositionCoordinates: null}));
+    dispatch(setLocationName({startPosition: null, endPosition: null}));
+    dispatch(setPaymentMethod({paymentMethod: null}));
+    dispatch(setNotes({notes: null}));
+    dispatch(setIsTripDetailSelected({isTripDetailSelected: false}))
+  }
+
+  const handleConfirmClick = async () => {
+    if (isSelectLocation) {
+        dispatch(setPaymentMethod({paymentMethod: payment}))
+        dispatch(setNotes({notes: note}))
+        dispatch(setIsTripDetailSelected({isTripDetailSelected: true}))
+    }
+
+    else {
+        if (origin !== "" && dest !== "") {
+            setIsSelectLocation(!isSelectLocation);
+            const original : GeocodingSearchResult = await maptilerClient.geocoding.forward(origin, {
+                apiKey: import.meta.env.VITE_MAPTILER_API_KEY,
+                limit: 1,
+                country: ['vn']
+            });
+        
+            const destination : GeocodingSearchResult = await await maptilerClient.geocoding.forward(dest, {
+                apiKey: import.meta.env.VITE_MAPTILER_API_KEY,
+                limit: 1,
+                country: ['vn']
+            });
+            
+            dispatch(setLocationName({
+                startPosition: original.features[0].place_name, 
+                endPosition: destination.features[0].place_name
+            }));
+            
+            dispatch(setLocationCoordinates({
+                startPositionCoordinates: original.features[0].geometry.coordinates,
+                endPositionCoordinates: destination.features[0].geometry.coordinates
+            }));
+        }
+        else {
+            console.log('Origin and Destination null')
+        }
     }
   }
 
@@ -45,13 +79,31 @@ function LocationSelection() {
                                         type="button"
                                         data-bs-toggle="dropdown" 
                                     >
-                                        Choose
+                                        { payment == "" ? "Choose" : payment }
                                     </button>
 
                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <button className="dropdown-item">Cash</button>
-                                        <button className="dropdown-item">Credit Card</button>
-                                        <button className="dropdown-item">Other</button>
+                                        <button 
+                                            className="dropdown-item"
+                                            value="Cash"
+                                            onClick={(e) => setPayment(e.currentTarget.value)}
+                                        >
+                                            Cash
+                                        </button>
+                                        <button 
+                                            className="dropdown-item"
+                                            value="Credit Card"
+                                            onClick={(e) => setPayment(e.currentTarget.value)}
+                                        >
+                                            Credit Card
+                                        </button>
+                                        <button 
+                                            className="dropdown-item"
+                                            value="Other"
+                                            onClick={(e) => setPayment(e.currentTarget.value)}
+                                        >
+                                            Other
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -63,14 +115,38 @@ function LocationSelection() {
                                         type="button"
                                         data-bs-toggle="dropdown" 
                                     >
-                                        Choose
+                                        { note == "" ? "Choose" : note}
                                     </button>
 
                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <button className="dropdown-item">Note example 1</button>
-                                        <button className="dropdown-item">Note example 2</button>
-                                        <button className="dropdown-item">Note example 3</button>
-                                        <button className="dropdown-item">Note example Other</button>
+                                        <button 
+                                            className="dropdown-item"
+                                            value="Note example 1"
+                                            onClick={(e) => setNote(e.currentTarget.value)}
+                                        >
+                                            Note example 1
+                                        </button>
+                                        <button 
+                                            className="dropdown-item"
+                                            value="Note example 2"
+                                            onClick={(e) => setNote(e.currentTarget.value)}  
+                                        >
+                                            Note example 2
+                                        </button>
+                                        <button 
+                                            className="dropdown-item"
+                                            value="Note example 3"
+                                            onClick={(e) => setNote(e.currentTarget.value)}   
+                                        >
+                                            Note example 3
+                                        </button>
+                                        <button 
+                                            className="dropdown-item"
+                                            value="Other"
+                                            onClick={(e) => setNote(e.currentTarget.value)}
+                                        >
+                                            Other
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -87,12 +163,12 @@ function LocationSelection() {
                                 />
                             </div>
                             <div className="col-12 fw-bold d-flex justify-content-between mb-2">
-                                Enter Destination
+                                Enter Dest
                                 <input 
                                     type="text" 
                                     className="rounded border"
-                                    value={destination}
-                                    onChange={(e) => setDestination(e.currentTarget.value)}
+                                    value={dest}
+                                    onChange={(e) => setDest(e.currentTarget.value)}
                                 />
                             </div>
                         </div>
@@ -100,13 +176,16 @@ function LocationSelection() {
                 }
 
                 <div className="col-12 text-center p-5">
-                    <button className="rounded border fw-bold px-3 btn btn-light mx-2 px-4">
+                    <button 
+                        className="rounded border fw-bold px-3 btn btn-light mx-2 px-4"
+                        onClick={() => handleCancelClick()}
+                    >
                         Cancle
                     </button>
 
                     <button 
                         className="rounded border fw-bold px-3 btn btn-light mx-2"
-                        onClick={() => handleConfirmClick(origin, destination)}
+                        onClick={() => handleConfirmClick()}
                     >
                         Confirm
                     </button>
