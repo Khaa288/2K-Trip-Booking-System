@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using tkpm_API.Data;
 using tkpm_API.Helpers;
+using tkpm_API.Services.Admin;
 using tkpm_API.Services.Authentication;
 using tkpm_API.Services.Locations;
 using tkpm_API.Services.VehicleTypes;
@@ -25,6 +26,7 @@ builder.Services.AddCors();
 builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IVehicleTypeManager, VehicleTypeManager>();
 builder.Services.AddScoped<ILocationManager, LocationManager>();
+builder.Services.AddScoped<IAdminManager, AdminManager>();
 
 var app = builder.Build();
 

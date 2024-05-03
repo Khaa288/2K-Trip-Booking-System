@@ -11,6 +11,7 @@ namespace tkpm_API.Helpers
             CreateMap<User, LoginResponse>().ReverseMap();
             CreateMap<Location, LocationResponse>().ReverseMap();
             CreateMap<VehicleType, VehicleTypeResponse>().ReverseMap();
+            CreateMap<Driver, DriverResponse>().ReverseMap();
         }
     }
 }
