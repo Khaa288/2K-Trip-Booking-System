@@ -22,6 +22,8 @@ namespace tkpm_API.Data
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<VehicleType> VehicleTypes { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<Bill> Bills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +32,8 @@ namespace tkpm_API.Data
             modelBuilder.Entity<Role>().HasKey(u => u.Id);
             modelBuilder.Entity<VehicleType>().HasKey(u => u.Id);
             modelBuilder.Entity<Location>().HasKey(u => u.Id);
+            modelBuilder.Entity<Trip>().HasKey(u => u.Id);
+            modelBuilder.Entity<Bill>().HasKey(u => u.Id);
             #endregion
 
             #region Relationships
@@ -55,6 +59,23 @@ namespace tkpm_API.Data
                         .HasOne(d => d.Location)
                         .WithMany(l => l.Drivers)
                         .HasForeignKey(d => d.RegisterLocationId);
+
+            modelBuilder.Entity<Trip>()
+                        .HasOne(t => t.Customer)
+                        .WithMany(u => u.Trips)
+                        .HasForeignKey(t => t.CustomerId)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Trip>()
+                        .HasOne(t => t.VehicleType)
+                        .WithMany(vt => vt.Trips)
+                        .HasForeignKey(t => t.VehicleTypeId)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Bill>()
+                        .HasOne(b => b.Trip)
+                        .WithOne(t => t.Bill)
+                        .HasForeignKey<Bill>(b => b.TripId);
             #endregion
 
             #region Data
