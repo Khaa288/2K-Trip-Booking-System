@@ -19,5 +19,7 @@ namespace tkpm_API.Entities
         [Required]
         public int RoleId { get; set; }
         public Role Role { get; set; }
+
+        public List<Trip> Trips { get; set; }
     }
 }
