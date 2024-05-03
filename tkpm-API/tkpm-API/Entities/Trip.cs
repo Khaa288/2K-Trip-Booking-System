@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using tkpm_API.Utilities.Enums;
 
 namespace tkpm_API.Entities
 {
@@ -12,7 +13,7 @@ namespace tkpm_API.Entities
         [Required]
         public string? EndPosition { get; set; }
 
-        public bool Status { get; set; }
+        public TripStatus Status { get; set; }
         public string? Notes { get; set; }
         public DateTime BookingTime { get; set; }
 
