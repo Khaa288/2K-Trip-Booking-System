@@ -1,7 +1,8 @@
-import { createSlice, isAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 const initialState = {
+    TripId: 0,
     CustomerId: 0, 
     VehicleTypeId: 0,
     DriverId: 0,
@@ -81,6 +82,10 @@ export const customerTripSlice = createSlice ({
             }
         },
 
+        setTripId: (state, action: PayloadAction<{tripId: number}>) => {
+            state.TripId = action.payload.tripId;
+        },
+
         setIsTripDetailSelected: (state, action: PayloadAction<{isTripDetailSelected: boolean}>) => {
             state.IsTripDetailSelected = action.payload.isTripDetailSelected;
         },
@@ -98,6 +103,7 @@ export const {
     setPaymentMethod, 
     setNotes, 
     setIsTripDetailSelected,
-    setIsTripDetailConfirmed
+    setIsTripDetailConfirmed,
+    setTripId
 } = customerTripSlice.actions;
 export const customerTripReducer = customerTripSlice.reducer;

@@ -12,6 +12,11 @@ import RegisterDriver from './pages/RegisterDriver';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import { MapProvider } from 'react-map-gl';
+import TripDriverDetail from './components/Customer/TripDriverDetail';
+import CustomerHome from './pages/CustomerHome';
+import DriverHome from './pages/DriverHome';
+import AdminHome from './pages/AdminHome';
+import OperatorHome from './pages/OperatorHome';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +39,31 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home/>,
   },
+
+  {
+    path: "/customer/home",
+    element: <CustomerHome/>,
+  },
+
+  {
+    path: "/customer/trip",
+    element: <TripDriverDetail/>
+  },
+
+  {
+    path: "/driver/home",
+    element: <DriverHome/>,
+  },
+
+  {
+    path: "/admin/home",
+    element: <AdminHome/>,
+  },
+
+  {
+    path: "/operator/home",
+    element: <OperatorHome/>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

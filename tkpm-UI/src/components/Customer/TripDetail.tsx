@@ -1,12 +1,20 @@
 import { useDispatch, useSelector } from "react-redux"
-import { setIsTripDetailConfirmed, setIsTripDetailSelected, setLocationCoordinates, setLocationName, setNotes, setPaymentMethod, setVehicleType } from "../../store/customerTripSlices";
+import { setIsTripDetailConfirmed, setIsTripDetailSelected, setLocationCoordinates, setLocationName, setNotes, setPaymentMethod, setTripId, setVehicleType } from "../../store/customerTripSlices";
 import { RootState } from "../../store/store"
+import { useNavigate } from "react-router-dom";
+import { useBookTripMutation } from "../../apis/tripApi";
 
 function TripDetail() {
     const startPosition = useSelector((state: RootState) => state.customerTripStore.StartPosition);
-    const endPosition = useSelector((state: RootState) => state.customerTripStore.EndPosition)
-    const paymentMethod = useSelector((state: RootState) => state.customerTripStore.PaymentMethod)
-    const notes = useSelector((state: RootState) => state.customerTripStore.Notes)
+    const endPosition = useSelector((state: RootState) => state.customerTripStore.EndPosition);
+    const paymentMethod = useSelector((state: RootState) => state.customerTripStore.PaymentMethod);
+    const vehicleType = useSelector((state: RootState) => state.customerTripStore.VehicleTypeId);
+    const notes = useSelector((state: RootState) => state.customerTripStore.Notes);
+
+    const [bookTrip] = useBookTripMutation();
+    const navigate = useNavigate();
+
+    const user : UserInfo = JSON.parse(localStorage.getItem("user")!)
 
     const dispatch = useDispatch();
     const handleCancelClick = () => {
@@ -19,8 +27,20 @@ function TripDetail() {
         dispatch(setIsTripDetailConfirmed({isTripDetailConfirmed: false}));
     }
 
-    const handleTripBooking = () => {
+    const handleTripBooking = async () => {
+        const response : TripMutationResponse = await bookTrip({
+            customerId: user.id,
+            vehicleTypeId: vehicleType,
+            startPosition: startPosition,
+            endPosition: endPosition,
+            notes: notes
+        });
+
+        console.log(response.data);
+
+        localStorage.setItem("tripId", response.data?.id.toString()!)
         dispatch(setIsTripDetailConfirmed({isTripDetailConfirmed: true}));
+        navigate('/customer/trip')
     }
 
     return (
