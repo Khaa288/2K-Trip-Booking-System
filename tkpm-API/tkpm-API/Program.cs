@@ -3,6 +3,7 @@ using tkpm_API.Data;
 using tkpm_API.Helpers;
 using tkpm_API.Services.Authentication;
 using tkpm_API.Services.Locations;
+using tkpm_API.Services.Trips;
 using tkpm_API.Services.VehicleTypes;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,7 @@ builder.Services.AddCors();
 builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IVehicleTypeManager, VehicleTypeManager>();
 builder.Services.AddScoped<ILocationManager, LocationManager>();
+builder.Services.AddScoped<ITripManager, TripManager>();
 
 var app = builder.Build();
 
