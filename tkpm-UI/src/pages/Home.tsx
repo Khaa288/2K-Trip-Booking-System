@@ -3,7 +3,7 @@ import DriverHome from "./DriverHome"
 import Header from "../layouts/Header"
 
 function Home() {
-  const user : UserInfo = JSON.parse(localStorage.getItem("user")!)
+  const user : UserInfo = JSON.parse(sessionStorage.getItem("user")!)
   
   return (
     <div>

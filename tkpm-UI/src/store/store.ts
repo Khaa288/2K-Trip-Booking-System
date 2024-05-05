@@ -7,6 +7,7 @@ import { tripApi } from '../apis/tripApi'
 import { authenticationApi } from '../apis/authenticationApi'
 import { locationApi } from '../apis/locationApi'
 import { driverTripReducer } from './driverTripSlices'
+import { billApi } from '../apis/billApi'
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +17,8 @@ export const store = configureStore({
     [authenticationApi.reducerPath]: authenticationApi.reducer,
     [locationApi.reducerPath]: locationApi.reducer,
     [vehicleTypeApi.reducerPath]: vehicleTypeApi.reducer,
-    [tripApi.reducerPath]: tripApi.reducer
+    [tripApi.reducerPath]: tripApi.reducer,
+    [billApi.reducerPath]: billApi.reducer
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware()
@@ -24,6 +26,7 @@ export const store = configureStore({
       .concat(locationApi.middleware)
       .concat(vehicleTypeApi.middleware)
       .concat(tripApi.middleware)
+      .concat(billApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>

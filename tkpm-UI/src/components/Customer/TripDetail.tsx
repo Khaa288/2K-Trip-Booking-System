@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { setIsTripDetailConfirmed, setIsTripDetailSelected, setLocationCoordinates, setLocationName, setNotes, setPaymentMethod, setTripId, setVehicleType } from "../../store/customerTripSlices";
+import { setIsTripDetailConfirmed, setIsTripDetailSelected, setLocationCoordinates, setLocationName, setNotes, setPaymentMethod, setVehicleType } from "../../store/customerTripSlices";
 import { RootState } from "../../store/store"
 import { useNavigate } from "react-router-dom";
 import { useBookTripMutation } from "../../apis/tripApi";
@@ -14,7 +14,7 @@ function TripDetail() {
     const [bookTrip] = useBookTripMutation();
     const navigate = useNavigate();
 
-    const user : UserInfo = JSON.parse(localStorage.getItem("user")!)
+    const user : UserInfo = JSON.parse(sessionStorage.getItem("user")!)
 
     const dispatch = useDispatch();
     const handleCancelClick = () => {
@@ -33,12 +33,13 @@ function TripDetail() {
             vehicleTypeId: vehicleType,
             startPosition: startPosition,
             endPosition: endPosition,
-            notes: notes
+            notes: notes,
+            paymentMethod: paymentMethod
         });
 
         console.log(response.data);
 
-        localStorage.setItem("tripId", response.data?.id.toString()!)
+        sessionStorage.setItem("tripId", response.data?.id.toString()!)
         dispatch(setIsTripDetailConfirmed({isTripDetailConfirmed: true}));
         navigate('/customer/trip')
     }

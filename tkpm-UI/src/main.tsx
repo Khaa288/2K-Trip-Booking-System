@@ -17,6 +17,8 @@ import CustomerHome from './pages/CustomerHome';
 import DriverHome from './pages/DriverHome';
 import AdminHome from './pages/AdminHome';
 import OperatorHome from './pages/OperatorHome';
+import DriverPickUp from './components/Driver/DriverPickUp';
+import TripPayment from './components/Driver/TripPayment';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +55,16 @@ const router = createBrowserRouter([
   {
     path: "/driver/home",
     element: <DriverHome/>,
+  },
+
+  {
+    path: "/driver/trip",
+    element: <DriverPickUp/>,
+  },
+
+  {
+    path: "/driver/payment",
+    element: <TripPayment/>,
   },
 
   {

@@ -5,9 +5,9 @@ import { useCancelTripMutation, useValidatePickedUpTripQuery } from "../../apis/
 import { TripStatus } from "../../data/TripStatus";
 
 function TripDriverDetail() {
-  const customerTripId = localStorage.getItem('tripId')
+  const customerTripId = parseInt(sessionStorage.getItem('tripId')!);
 
-  const {data: trip} = useValidatePickedUpTripQuery(parseInt(customerTripId!));
+  const {data: trip} = useValidatePickedUpTripQuery(customerTripId);
   const [cancelTrip] = useCancelTripMutation();
 
   const handleCancelTrip = async () => {
@@ -63,8 +63,41 @@ function TripDriverDetail() {
               </div>
             </div>
           ) : 
+          trip?.status === TripStatus.COMPLETED ? (
+            <div className="bg-light mt-5 rounded-5 text-center p-4">
+              <div>
+                <i className="bi bi-check-circle-fill" style={{fontSize: "196px", color: "#77ccef"}}></i>
+              </div>
+              <div className="h3 p-4">
+                Trip is completed
+              </div>
+              <div className="pb-5">
+                <button 
+                  className="rounded btn btn-light text-light" 
+                  style={{ backgroundColor: "#8fc4b7" }}
+                >
+                  <a href="/customer/home" style={{textDecoration: "none", color: "inherit"}}>Book another trip</a>
+                </button>
+              </div>
+            </div>
+          ):
 
-          (<div>Trip is canceled by driver</div>)
+          (<div className="bg-light mt-5 rounded-5 text-center p-4">
+              <div>
+                <i className="bi bi-x-circle-fill" style={{fontSize: "196px", color: "#FAA0A0"}}></i>
+              </div>
+              <div className="h3 p-4">
+                Trip is canceled by driver
+              </div>
+              <div className="pb-5">
+                <button 
+                  className="rounded btn btn-light text-light" 
+                  style={{ backgroundColor: "#8fc4b7" }}
+                >
+                  <a href="/customer/home" style={{textDecoration: "none", color: "inherit"}}>Book another trip</a>
+                </button>
+              </div>
+          </div>)
         }
       </div>
     </div>

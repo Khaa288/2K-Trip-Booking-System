@@ -3,8 +3,13 @@ import userImage from '../../assets/user.png';
 import { setDriverConnect } from '../../store/driverTripSlices';
 
 function DriverDetail() {
-    const driver : UserInfo = JSON.parse(localStorage.getItem("user")!)
+    const driver : UserInfo = JSON.parse(sessionStorage.getItem("user")!);
     const dispatch = useDispatch();
+
+    const handleConnect = () => {
+        sessionStorage.setItem("isConnecting", true.toString());
+        dispatch(setDriverConnect())
+    }
 
     return (
         <div>
@@ -38,7 +43,7 @@ function DriverDetail() {
                         <button 
                             style={{backgroundColor: "#8fc4b7"}}
                             className="rounded-pill border px-3 py-2 text-light"    
-                            onClick={() => dispatch(setDriverConnect(true))}
+                            onClick={() => handleConnect()}
                         >
                             <i className="bi bi-power"></i>{" "}Connect
                         </button>

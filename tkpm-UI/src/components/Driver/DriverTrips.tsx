@@ -5,15 +5,22 @@ import { setDriverAcceptTrip, setDriverConnect } from '../../store/driverTripSli
 import { useAcceptTripMutation, useGetLastestTripQuery } from '../../apis/tripApi';
 
 function DriverTrips() {
-  const driver : UserInfo = JSON.parse(localStorage.getItem("user")!);
+  const driver : UserInfo = JSON.parse(sessionStorage.getItem("user")!);
 
   const dispatch = useDispatch();
   const {data: response} = useGetLastestTripQuery();
   const [acceptTrip] = useAcceptTripMutation();
 
   const handleAcceptTrip = async (tripId: number, driverId: number) => {
+    sessionStorage.setItem("tripId", tripId.toString()!)
     await acceptTrip({driverId: driverId, tripId: tripId});
     dispatch(setDriverAcceptTrip(true));
+    console.log(109890890)
+  }
+
+  const handleDisconnect = () => {
+    sessionStorage.setItem("isConnecting", false.toString());
+    dispatch(setDriverConnect())
   }
 
   return (
@@ -49,7 +56,7 @@ function DriverTrips() {
                         <button 
                             style={{backgroundColor: "#FAA0A0"}}
                             className="rounded-pill border border-light px-3 py-2 text-light"   
-                            onClick={() => dispatch(setDriverConnect(false))} 
+                            onClick={() => handleDisconnect()} 
                         >
                             <i className="bi bi-power"></i>{" "}Disconnect
                         </button>
@@ -73,12 +80,18 @@ function DriverTrips() {
                                         style={{backgroundColor: "#8fc4b7"}}
                                         onClick={() => handleAcceptTrip(response.id, driver.id)}
                                     >
-                                        Accept
+                                        <a href="/driver/trip" style={{textDecoration: "none", color: "inherit"}}>Accept</a>
                                     </button>
                                 </div>
                             </div>
-                        ) : (
-                            <div className='h1'>hehe</div>
+                        ) : 
+                        (
+                            <div className="text-center">
+                                <div className='h1'>No Trip Available</div>
+                                <div>
+                                    <i className="bi bi-search" style={{ fontSize: "208px"}}></i>
+                                </div>
+                            </div>
                         )
                     }
                 </div>

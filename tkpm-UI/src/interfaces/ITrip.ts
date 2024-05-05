@@ -19,6 +19,17 @@ interface TripMutationResponse {
     error?: any
 }
 
+interface TripWithCustomerResponse {
+    customerFullName: string,
+    customerPhoneNumber: string,
+    id: number,
+    startPosition:  string,
+    endPosition: string,
+    status: number,
+    notes: string,
+    bookingTime: string   
+}
+
 interface AcceptTripRequest {
     tripId: number,
     driverId: number

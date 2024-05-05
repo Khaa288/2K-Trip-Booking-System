@@ -18,6 +18,12 @@ export const tripApi = createApi({
             })
         }),
 
+        getTripById: builder.query<TripWithCustomerResponse, number> ({
+            query: (tripId) => ({
+                url: `?tripId=${tripId}`
+            })
+        }),
+
         getLastestTrip: builder.query<TripResponse, void>({
             query: () => ({
                 url: "lastest"
@@ -34,6 +40,14 @@ export const tripApi = createApi({
         cancelTrip: builder.mutation({
             query: (tripId) => ({
                 url: `cancel?tripId=${tripId}`,
+                method: "POST"
+            })
+        }),
+
+        completeTrip: builder.mutation({
+            query: (tripId) => ({
+                url: `complete?tripId=${tripId}`,
+                method: "POST"
             })
         })
     })
@@ -44,5 +58,7 @@ export const {
     useValidatePickedUpTripQuery, 
     useGetLastestTripQuery, 
     useAcceptTripMutation ,
-    useCancelTripMutation
+    useCancelTripMutation,
+    useGetTripByIdQuery,
+    useCompleteTripMutation
 } = tripApi;

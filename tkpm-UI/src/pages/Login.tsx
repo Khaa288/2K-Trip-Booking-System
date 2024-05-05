@@ -16,7 +16,7 @@ function Login() {
     })
 
     if (response.data) {
-      localStorage.setItem("user", JSON.stringify(response.data))
+      sessionStorage.setItem("user", JSON.stringify(response.data))
       console.log(response.data)
       if (response.data.roleId === 1) {
         navigate("admin/home")
