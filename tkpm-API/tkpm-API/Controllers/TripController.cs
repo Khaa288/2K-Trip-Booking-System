@@ -29,7 +29,7 @@ namespace tkpm_API.Controllers
             return Ok(await _tripManager.BookTrip(request));
         }
 
-        [HttpPost("cancle")]
+        [HttpPost("cancel")]
         public async Task<ActionResult<bool>> CancelTrip(int tripId)
         {
             var isTripCanceled = await _tripManager.CancelTrip(tripId);
