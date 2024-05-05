@@ -16,6 +16,12 @@ namespace tkpm_API.Controllers
             _tripManager = tripManager;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<TripResponse>> GetTripById(int tripId)
+        {
+            return Ok(await _tripManager.GetTripById(tripId));
+        }
+
         [HttpGet("lastest")]
         public async Task<ActionResult<TripBookingResponse>> GetLastestTrip()
         {
@@ -41,6 +47,13 @@ namespace tkpm_API.Controllers
         {
             var isTripAccepted = await _tripManager.AcceptTrip(tripId, driverId);
             return isTripAccepted ? Ok(true) : NotFound(false);
+        }
+
+        [HttpPost("complete")]
+        public async Task<ActionResult<bool>> CompleteTrip(int tripId)
+        {
+            var isTripCompleted = await _tripManager.CompleteTrip(tripId);
+            return (isTripCompleted ? Ok(true) : NotFound(false));
         }
 
         [HttpGet("validate")]

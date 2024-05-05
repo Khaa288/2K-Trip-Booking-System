@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using tkpm_API.Data;
 using tkpm_API.Helpers;
 using tkpm_API.Services.Authentication;
+using tkpm_API.Services.Bills;
 using tkpm_API.Services.Locations;
 using tkpm_API.Services.Trips;
 using tkpm_API.Services.VehicleTypes;
@@ -27,6 +28,7 @@ builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IVehicleTypeManager, VehicleTypeManager>();
 builder.Services.AddScoped<ILocationManager, LocationManager>();
 builder.Services.AddScoped<ITripManager, TripManager>();
+builder.Services.AddScoped<IBillManager, BillManager>();
 
 var app = builder.Build();
 

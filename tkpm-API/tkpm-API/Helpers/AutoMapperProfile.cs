@@ -12,6 +12,8 @@ namespace tkpm_API.Helpers
             CreateMap<Location, LocationResponse>().ReverseMap();
             CreateMap<VehicleType, VehicleTypeResponse>().ReverseMap();
             CreateMap<Trip, TripBookingResponse>().ReverseMap();
+            CreateMap<Trip, TripResponse>().ReverseMap();
+            CreateMap<Bill, BillResponse>().ReverseMap();
         }
     }
 }

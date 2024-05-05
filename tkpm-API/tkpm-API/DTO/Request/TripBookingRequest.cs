@@ -7,5 +7,6 @@
         public string StartPosition { get; set; }
         public string EndPosition { get; set; }
         public string Notes { get; set; }
+        public string PaymentMethod { get; set; }
     }
 }

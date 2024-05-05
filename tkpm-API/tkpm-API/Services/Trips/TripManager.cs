@@ -4,6 +4,7 @@ using tkpm_API.Data;
 using tkpm_API.DTO.Request;
 using tkpm_API.DTO.Response;
 using tkpm_API.Entities;
+using tkpm_API.Services.Bills;
 using tkpm_API.Utilities.Enums;
 
 namespace tkpm_API.Services.Trips
@@ -12,11 +13,19 @@ namespace tkpm_API.Services.Trips
     {
         private readonly AppDbContext _dbcontext;
         private readonly IMapper _mapper;
+        private readonly IBillManager _billManager;
 
-        public TripManager(AppDbContext dbcontext, IMapper mapper)
+        public TripManager(AppDbContext dbcontext, IMapper mapper, IBillManager billManager)
         {
             _dbcontext = dbcontext;
             _mapper = mapper;
+            _billManager = billManager;
+        }
+
+        public async Task<TripResponse?> GetTripById(int tripId)
+        {
+            var trip = await _dbcontext.Trips.Include(t => t.Customer).FirstOrDefaultAsync(t => t.Id == tripId);
+            return _mapper.Map<TripResponse>(trip);
         }
 
         public async Task<TripBookingResponse?> GetLastestTrip()
@@ -46,6 +55,7 @@ namespace tkpm_API.Services.Trips
 
             await _dbcontext.Trips.AddAsync(trip);
             await _dbcontext.SaveChangesAsync();
+            await _billManager.InitializeBill(trip.Id, request.PaymentMethod);
 
             return _mapper.Map<TripBookingResponse>(trip);
         }
@@ -88,6 +98,21 @@ namespace tkpm_API.Services.Trips
             }
 
             trip.Status = TripStatus.CANCELED;
+            await _dbcontext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> CompleteTrip(int tripId)
+        {
+            var trip = await _dbcontext.Trips.FirstOrDefaultAsync(t => t.Id == tripId);
+
+            if (trip is null)
+            {
+                return false;
+            }
+
+            trip.Status = TripStatus.COMPLETED;
             await _dbcontext.SaveChangesAsync();
 
             return true;
