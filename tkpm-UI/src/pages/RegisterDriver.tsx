@@ -46,7 +46,7 @@ function RegisterDriver() {
 
     if (!response.error) {
       console.log(response)
-      navigate('/');
+      navigate('/login');
     }
   }
 
@@ -195,7 +195,7 @@ function RegisterDriver() {
                 <div>
                   <p className="mb-0">
                     If you have your account?{" "}
-                    <a href="/" className="text-white-50 fw-bold">
+                    <a href="/login" className="text-white-50 fw-bold">
                       Login
                     </a>
                   </p>
