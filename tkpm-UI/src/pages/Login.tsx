@@ -16,9 +16,23 @@ function Login() {
     })
 
     if (response.data) {
-      localStorage.setItem("user", JSON.stringify(response.data))
+      sessionStorage.setItem("user", JSON.stringify(response.data))
       console.log(response.data)
-      navigate('/home');
+      if (response.data.roleId === 1) {
+        navigate("admin/home")
+      }
+
+      if (response.data.roleId === 2) {
+        navigate("/customer/home")
+      }
+
+      if (response.data.roleId === 3) {
+        navigate("/driver/home")
+      }
+
+      if (response.data.roleId === 4) {
+        navigate("operator/home")
+      }
     }
     else if (response.error) {
       console.log(response.error);

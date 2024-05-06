@@ -13,6 +13,9 @@ namespace tkpm_API.Entities
         [Required]
         public string? EndPosition { get; set; }
 
+        // Is foreign key to Driver but not adding FK in SQL
+        public int DriverId { get; set; }
+
         public TripStatus Status { get; set; }
         public string? Notes { get; set; }
         public DateTime BookingTime { get; set; }
@@ -22,9 +25,6 @@ namespace tkpm_API.Entities
 
         public int CustomerId { get; set; }
         public User Customer { get; set; }
-
-        public int DriverId { get; set; }
-        public Driver Driver { get; set; }
 
         public Bill Bill { get; set; }
     }

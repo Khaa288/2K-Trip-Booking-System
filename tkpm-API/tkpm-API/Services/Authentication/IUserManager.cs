@@ -8,6 +8,7 @@ namespace tkpm_API.Services.Authentication
     {
         Task<LoginResponse?> GetLoginUser(string username, string password);
         Task<User?> GetRegisterUser(string username, string email);
+
         Task CreateCustomer(RegisterRequest request);
         Task CreateDriver(RegisterDriverRequest request);
     }
