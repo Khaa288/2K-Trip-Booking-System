@@ -19,7 +19,7 @@ function Login() {
       sessionStorage.setItem("user", JSON.stringify(response.data))
       console.log(response.data)
       if (response.data.roleId === 1) {
-        navigate("admin/home")
+        navigate("/admin/home")
       }
 
       if (response.data.roleId === 2) {
@@ -31,7 +31,7 @@ function Login() {
       }
 
       if (response.data.roleId === 4) {
-        navigate("operator/home")
+        navigate("/operator/home")
       }
     }
     else if (response.error) {
