@@ -19,10 +19,17 @@ import AdminHome from './pages/AdminHome';
 import OperatorHome from './pages/OperatorHome';
 import DriverPickUp from './components/Driver/DriverPickUp';
 import TripPayment from './components/Driver/TripPayment';
+import OperatedTrip from './pages/OperatedTrip';
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <OperatedTrip/>,
+    errorElement: <Error/>,
+  },
+
+  {
+    path: "/login",
     element: <Login/>,
     errorElement: <Error/>,
   },

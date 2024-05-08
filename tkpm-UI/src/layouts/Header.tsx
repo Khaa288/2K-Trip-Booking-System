@@ -1,5 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 function Header() {
-  const user : UserInfo = JSON.parse(sessionStorage.getItem("user")!)
+  const user : UserInfo = JSON.parse(sessionStorage.getItem("user")!);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  }
 
   return (        
     <nav className="navbar navbar-light bg-light justify-content-between px-5">
@@ -10,9 +18,16 @@ function Header() {
         }>
           2K Home
         </a>
-        <button className="btn btn-outline-success my-2 my-sm-0 rounded-circle border-1" style={{color: "#8fc4b7"}}>
-            <i className="bi bi-person-fill"></i>
-        </button>
+
+        <a href="" data-bs-toggle="dropdown">
+          <button className="btn btn-outline-success my-2 my-sm-0 rounded-circle border-1 dropdown" style={{color: "#8fc4b7"}}>
+              <i className="bi bi-person-fill"></i>
+              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li><a className="dropdown-item" href="#">Information</a></li>
+              <li><a className="dropdown-item" href="#" onClick={() => handleLogout()}>Log out</a></li>
+            </ul>
+          </button>
+        </a>
     </nav>
   )
 }

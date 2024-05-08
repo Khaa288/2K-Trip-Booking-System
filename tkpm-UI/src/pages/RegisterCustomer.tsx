@@ -39,7 +39,7 @@ function RegisterCustomer () {
 
     if (!response.error) {
       console.log(response)
-      navigate('/');
+      navigate('/login');
     }
   }
 
@@ -136,7 +136,7 @@ function RegisterCustomer () {
                 <div>
                   <p className="mb-0">
                     Have already an account?{" "}
-                    <a href="/" className="text-white-50 fw-bold">
+                    <a href="/login" className="text-white-50 fw-bold">
                       Login
                     </a>
                   </p>

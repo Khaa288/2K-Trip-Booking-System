@@ -1,20 +1,17 @@
-import { useCancelTripMutation, useGetTripByIdQuery, useValidatePickedUpTripQuery } from "../../apis/tripApi";
+import { useGetTripByIdQuery, useValidatePickedUpTripQuery } from "../../apis/tripApi";
 import { TripStatus } from "../../data/TripStatus";
 import Header from "../../layouts/Header";
+import ConfirmModal from "../Common/ConfirmModal";
 
 function DriverPickUp() {
   const tripId = parseInt(sessionStorage.getItem('tripId')!);
   const { data: trip } = useValidatePickedUpTripQuery(tripId);
   const { data: tripWithCustomer} = useGetTripByIdQuery(tripId);
-  const [cancelTrip] = useCancelTripMutation();
-
-  const handleCancelClick = async () => {
-    await cancelTrip(tripId);
-  }
 
   return (
     <div>
       <Header />
+      <ConfirmModal/>
       <div className="container">
         {
           trip?.status === TripStatus.CANCELED ? (
@@ -90,7 +87,7 @@ function DriverPickUp() {
               <div className="col">
                 <button
                   className="rounded-circle border border-dark border-3 py-3 px-4"
-                  onClick={() => handleCancelClick()}
+                  data-bs-toggle="modal" data-bs-target="#confirmModal"
                 >
                   <i className="bi bi-x-lg"></i>
                 </button>

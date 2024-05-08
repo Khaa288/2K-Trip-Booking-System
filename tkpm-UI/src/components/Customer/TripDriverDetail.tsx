@@ -1,22 +1,18 @@
 import LoadingIcon from "../Common/LoadingIcon"
 import userImage from "../../assets/user.png"
 import Header from "../../layouts/Header";
-import { useCancelTripMutation, useValidatePickedUpTripQuery } from "../../apis/tripApi";
+import { useValidatePickedUpTripQuery } from "../../apis/tripApi";
 import { TripStatus } from "../../data/TripStatus";
+import ConfirmModal from "../Common/ConfirmModal";
 
 function TripDriverDetail() {
   const customerTripId = parseInt(sessionStorage.getItem('tripId')!);
-
   const {data: trip} = useValidatePickedUpTripQuery(customerTripId);
-  const [cancelTrip] = useCancelTripMutation();
-
-  const handleCancelTrip = async () => {
-    await cancelTrip(customerTripId);
-  }
 
   return (
     <div>
       <Header />
+      <ConfirmModal/>
       <div className="container">
         {
           trip?.status === TripStatus.ACCEPTED ? (
@@ -45,10 +41,10 @@ function TripDriverDetail() {
 
               <div className="d-flex justify-content-center">
                 <button 
-                  className="rounded border fw-bold px-3 btn btn-secondary mx-2"
-                  onClick={() => handleCancelTrip()}
+                  className="rounded border fw-bold px-3 btn btn-secondary mx-2" 
+                  data-bs-toggle="modal" data-bs-target="#confirmModal"
                 >
-                  <a href="/customer/home" style={{textDecoration: "none", color: "inherit"}}>Cancel the trip</a>
+                  Cancel the trip
                 </button>
               </div>
             </div>
