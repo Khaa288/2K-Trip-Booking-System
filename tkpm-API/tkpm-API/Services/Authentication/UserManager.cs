@@ -62,5 +62,10 @@ namespace tkpm_API.Services.Authentication
             var user = await _dbcontext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Email == email);
             return user;
         }
+
+        public async Task<List<DriverResponse>> GetDrivers()
+        {
+            return _mapper.Map<List<DriverResponse>>(await _dbcontext.Drivers.ToListAsync());
+        }
     }
 }

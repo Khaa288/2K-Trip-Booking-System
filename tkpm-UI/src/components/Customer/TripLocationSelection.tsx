@@ -163,7 +163,7 @@ function LocationSelection() {
                                 />
                             </div>
                             <div className="col-12 fw-bold d-flex justify-content-between mb-2">
-                                Enter Dest
+                                Enter Destination
                                 <input 
                                     type="text" 
                                     className="rounded border"

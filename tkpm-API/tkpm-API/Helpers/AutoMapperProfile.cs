@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Xml.Schema;
 using tkpm_API.DTO.Response;
 using tkpm_API.Entities;
 
@@ -15,6 +16,9 @@ namespace tkpm_API.Helpers
             CreateMap<Trip, TripBookingResponse>().ReverseMap();
             CreateMap<Trip, TripResponse>().ReverseMap();
             CreateMap<Bill, BillResponse>().ReverseMap();
+            CreateMap<OperatedTrip, OperatedTripResponse>().ReverseMap();
+            CreateMap<Driver, DriverResponse>().ReverseMap();
+            CreateMap<User, UserResponse>().ReverseMap(); 
         }
     }
 }

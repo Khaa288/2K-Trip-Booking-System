@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using tkpm_API.DTO.Request;
 using tkpm_API.DTO.Response;
+using tkpm_API.Services.OperatedTrips;
 using tkpm_API.Services.Trips;
 
 namespace tkpm_API.Controllers
@@ -10,16 +11,36 @@ namespace tkpm_API.Controllers
     public class TripController : ControllerBase
     {
         public readonly ITripManager _tripManager;
+        private readonly IOperatedTripManger _operatedTripManger;
 
-        public TripController(ITripManager tripManager)
+        public TripController(ITripManager tripManager, IOperatedTripManger operatedTripManger)
         {
             _tripManager = tripManager;
+            _operatedTripManger = operatedTripManger;
         }
 
         [HttpGet]
         public async Task<ActionResult<TripResponse>> GetTripById(int tripId)
         {
             return Ok(await _tripManager.GetTripById(tripId));
+        }
+
+        [HttpGet("operated")]
+        public async Task<List<OperatedTripResponse>> GetOperatedTrip()
+        {   
+            return await _operatedTripManger.GetTrips();
+        }
+
+        [HttpPost("operated/book")]
+        public async Task<OperatedTripResponse> BookOperatedTrip([FromBody] OperatedTripBookingRequest request)
+        {
+            return await _operatedTripManger.BookTrip(request);
+        }
+
+        [HttpPost("operated/coordinate")]
+        public async Task<bool> CoordinateDriver(int operatedTripId, int driverId)
+        {
+            return await _operatedTripManger.CoordinateDriver(operatedTripId, driverId);
         }
 
         [HttpGet("lastest")]

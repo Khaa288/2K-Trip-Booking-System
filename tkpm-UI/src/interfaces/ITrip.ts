@@ -30,6 +30,16 @@ interface TripWithCustomerResponse {
     bookingTime: string   
 }
 
+interface OperatedTripResponse {
+    id: number,
+    customerName: string,
+    customerLocationName : string,
+    customerPhoneNumber: string,
+    status: number,
+    notes: string,
+    bookingTime: string
+}
+
 interface AcceptTripRequest {
     tripId: number,
     driverId: number

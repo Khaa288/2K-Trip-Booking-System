@@ -62,22 +62,22 @@ function TripDetail() {
 
                     <hr />
 
-                    <div className="row py-1">
+                    {/* <div className="row py-1">
                         <div className="col-6 fw-bold">TripId: </div>
                         <div className="col-6 text-end pe-5">1</div>
-                    </div>
+                    </div> */}
 
-                    <div className="row py-1">
+                    <div className="row py-2">
                         <div className="col-6 fw-bold">Payment Method: </div>
                         <div className="col-6 text-end pe-5">{paymentMethod}</div>
                     </div>
 
-                    <div className="row py-1">
+                    <div className="row py-2">
                         <div className="col-6 fw-bold">Notes: </div>
                         <div className="col-6 text-end pe-5">{notes}</div>
                     </div>
 
-                    <div className="row py-1">
+                    <div className="row py-2">
                         <div className="col-6 fw-bold">Total: </div>
                         <div className="col-6 text-end pe-5">100000đ</div>
                     </div>
@@ -85,7 +85,7 @@ function TripDetail() {
             </div>
             
 
-            <div className="col-12 text-center p-5">
+            <div className="col-12 text-center p-5 mt-5">
                 <button 
                     className="rounded border fw-bold px-3 btn btn-light mx-2 px-4"
                     onClick={() => handleCancelClick()}
