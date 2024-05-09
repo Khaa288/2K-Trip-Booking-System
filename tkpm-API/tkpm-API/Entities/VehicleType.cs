@@ -14,5 +14,7 @@ namespace tkpm_API.Entities
         public List<Driver>? Drivers { get; set; }
 
         public List<Trip> Trips { get; set; }
+
+        public List<OperatedTrip>? OperatedTrips { get; set; }
     }
 }

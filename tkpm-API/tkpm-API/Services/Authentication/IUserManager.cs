@@ -11,5 +11,7 @@ namespace tkpm_API.Services.Authentication
 
         Task CreateCustomer(RegisterRequest request);
         Task CreateDriver(RegisterDriverRequest request);
+
+        Task<List<DriverResponse>> GetDrivers();
     }
 }

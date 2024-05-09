@@ -20,5 +20,17 @@ namespace tkpm_API.Controllers
             var locations = await _locationManager.GetLocation();
             return Ok(locations);
         }
+
+        [HttpGet("validate")]
+        public async Task<ActionResult<bool>> Validate(string name)
+        {
+            return await _locationManager.ValidateLocation(name);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<bool>> AddLocation (string name)
+        {
+            return await _locationManager.AddLocation(name);
+        }
     }
 }

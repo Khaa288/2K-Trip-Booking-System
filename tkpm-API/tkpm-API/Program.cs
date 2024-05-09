@@ -4,6 +4,7 @@ using tkpm_API.Helpers;
 using tkpm_API.Services.Authentication;
 using tkpm_API.Services.Bills;
 using tkpm_API.Services.Locations;
+using tkpm_API.Services.OperatedTrips;
 using tkpm_API.Services.Trips;
 using tkpm_API.Services.VehicleTypes;
 
@@ -29,6 +30,7 @@ builder.Services.AddScoped<IVehicleTypeManager, VehicleTypeManager>();
 builder.Services.AddScoped<ILocationManager, LocationManager>();
 builder.Services.AddScoped<ITripManager, TripManager>();
 builder.Services.AddScoped<IBillManager, BillManager>();
+builder.Services.AddScoped<IOperatedTripManger, OperatedTripManager>();
 
 var app = builder.Build();
 
