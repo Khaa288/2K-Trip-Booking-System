@@ -15,7 +15,7 @@ function CreatedModal() {
                                 isFormFilled ? (
                                     <i className="bi bi-check-circle" style={{ fontSize: "100px", color: "#8fc4b7" }}></i>
                                 ) : (
-                                    <i className="bi bi-x-circle" style={{ fontSize: "100px", color: "#c4998f" }}></i>
+                                    <i className="bi bi-x-circle" style={{ fontSize: "100px", color: "#FAA0A0" }}></i>
                                 )
                             }
                             </div>
