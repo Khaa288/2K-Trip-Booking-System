@@ -62,7 +62,7 @@ function TripDriverDetail() {
           trip?.status === TripStatus.COMPLETED ? (
             <div className="bg-light mt-5 rounded-5 text-center p-4">
               <div>
-                <i className="bi bi-check-circle-fill" style={{fontSize: "196px", color: "#77ccef"}}></i>
+                <i className="bi bi-check-circle" style={{fontSize: "196px", color: "#8fc4b7"}}></i>
               </div>
               <div className="h3 p-4">
                 Trip is completed
@@ -70,7 +70,7 @@ function TripDriverDetail() {
               <div className="pb-5">
                 <button 
                   className="rounded btn btn-light text-light" 
-                  style={{ backgroundColor: "#8fc4b7" }}
+                  style={{ backgroundColor: "#77ccef" }}
                 >
                   <a href="/customer/home" style={{textDecoration: "none", color: "inherit"}}>Book another trip</a>
                 </button>
@@ -80,7 +80,7 @@ function TripDriverDetail() {
 
           (<div className="bg-light mt-5 rounded-5 text-center p-4">
               <div>
-                <i className="bi bi-x-circle-fill" style={{fontSize: "196px", color: "#FAA0A0"}}></i>
+                <i className="bi bi-x-circle" style={{fontSize: "196px", color: "#FAA0A0"}}></i>
               </div>
               <div className="h3 p-4">
                 Trip is canceled by driver
@@ -88,7 +88,7 @@ function TripDriverDetail() {
               <div className="pb-5">
                 <button 
                   className="rounded btn btn-light text-light" 
-                  style={{ backgroundColor: "#8fc4b7" }}
+                  style={{ backgroundColor: "#77ccef" }}
                 >
                   <a href="/customer/home" style={{textDecoration: "none", color: "inherit"}}>Book another trip</a>
                 </button>
