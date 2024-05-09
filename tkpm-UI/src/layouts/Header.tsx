@@ -19,15 +19,15 @@ function Header() {
           2K Home
         </a>
 
-        <a href="" data-bs-toggle="dropdown">
-          <button className="btn btn-outline-success my-2 my-sm-0 rounded-circle border-1 dropdown" style={{color: "#8fc4b7"}}>
+        {/* <a href="" > */}
+          <button className="btn btn-outline-success my-2 my-sm-0 rounded-circle border-1 dropdown" style={{color: "#8fc4b7"}} data-bs-toggle="dropdown">
               <i className="bi bi-person-fill"></i>
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><a className="dropdown-item" href="#">Information</a></li>
               <li><a className="dropdown-item" href="#" onClick={() => handleLogout()}>Log out</a></li>
             </ul>
           </button>
-        </a>
+        {/* </a> */}
     </nav>
   )
 }

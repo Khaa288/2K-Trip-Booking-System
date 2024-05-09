@@ -8,10 +8,22 @@ export const locationApi = createApi({
             query: () => ({
                 url: ""
             })
-        })
+        }),
         
+        validateLocation: builder.query<boolean, string>({
+            query: (name) => ({
+                url: `validate?name=${name}`
+            })
+        }),
+
+        addLocation: builder.mutation({
+            query: (location) => ({
+                url: `?name=${location}`,
+                method: "POST"
+            })
+        })
     })
 });
 
-export const { useGetLocationsQuery } = locationApi;
+export const { useGetLocationsQuery, useLazyValidateLocationQuery, useAddLocationMutation } = locationApi;
 

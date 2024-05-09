@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useGetVehicleTypesQuery } from "../apis/vehicleTypeApi";
 import inputHelper from "../helpers/inputHelper";
+import { useBookOperatedTripMutation } from "../apis/tripApi";
+import CreatedModal from "../components/Common/CreatedModal";
+import { useDispatch } from "react-redux";
+import { setIsFormFilled } from "../store/operatedTripSlices";
 
-function OperatedTrip() {
+function OperatedTripBooking() {
   const [vehicle, setVehicle] = useState({ id: 0, name: "" });
   const [userInput, setUserInput] = useState({
     name: "",
@@ -12,19 +16,49 @@ function OperatedTrip() {
   });
 
   const { data: vehicleTypes } = useGetVehicleTypesQuery();
+  const [bookOperatedTrip] = useBookOperatedTripMutation();
+
+  const dispatch = useDispatch();
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const tempData = inputHelper(e, userInput);
     setUserInput(tempData);
   };
 
-  const handleSubmit = () => {
-    console.log(userInput);
-    console.log(vehicle);
+  const handleSubmit = async (
+    customerName: string,
+    location: string,
+    phoneNumber: string,
+    vehicleTypeId: number,
+    notes: string
+  ) => {
+    if (
+      customerName === "" || 
+      location === "" || 
+      phoneNumber === "" || 
+      vehicleTypeId === 0
+    ) {
+      dispatch(setIsFormFilled(false));
+      return
+    }
+
+    await bookOperatedTrip({
+      customerName: customerName,
+      location: location,
+      phoneNumber: phoneNumber,
+      vehicleTypeId: vehicleTypeId,
+      notes: notes
+    });
+    dispatch(setIsFormFilled(true));
+
+    // Clear form after click
+    setVehicle({ id: 0, name: "" });
+    setUserInput({ name: "", location: "", phone: "", notes: "" });
   }
 
   return (
     <div>
+      <CreatedModal/>
       <nav className="navbar navbar-light bg-light justify-content-between px-5">
         <a className="navbar-brand" href="/">
           2K Home
@@ -102,7 +136,14 @@ function OperatedTrip() {
               <button
                 className="btn btn-outline-light btn-lg px-5"
                 type="submit"
-                onClick={() => handleSubmit()}
+                onClick={() => handleSubmit(
+                  userInput.name,
+                  userInput.location,
+                  userInput.phone,
+                  vehicle.id,
+                  userInput.notes
+                )}
+                data-bs-toggle="modal" data-bs-target="#createdModal"
               >
                 Book
               </button>
@@ -114,4 +155,4 @@ function OperatedTrip() {
   )
 }
 
-export default OperatedTrip
+export default OperatedTripBooking

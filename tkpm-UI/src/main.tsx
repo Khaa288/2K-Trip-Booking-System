@@ -19,7 +19,7 @@ import AdminHome from './pages/AdminHome';
 import OperatorHome from './pages/OperatorHome';
 import DriverPickUp from './components/Driver/DriverPickUp';
 import TripPayment from './components/Driver/TripPayment';
-import OperatedTrip from './pages/OperatedTrip';
+import OperatedTrip from './pages/OperatedTripBooking';
 
 const router = createBrowserRouter([
   {

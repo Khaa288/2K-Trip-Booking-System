@@ -1,3 +1,4 @@
+import { coordinates } from '@maptiler/sdk';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const tripApi = createApi({
@@ -12,6 +13,14 @@ export const tripApi = createApi({
             })
         }),
 
+        bookOperatedTrip: builder.mutation({
+            query: (body) => ({
+                url: "operated/book",
+                method: "POST",
+                body: body
+            })
+        }),
+
         validatePickedUpTrip: builder.query<TripResponse, number>({
             query: (tripId) => ({
                 url: `validate?tripId=${tripId}`,
@@ -21,6 +30,12 @@ export const tripApi = createApi({
         getTripById: builder.query<TripWithCustomerResponse, number> ({
             query: (tripId) => ({
                 url: `?tripId=${tripId}`
+            })
+        }),
+
+        getOperatedTrip: builder.query<OperatedTripResponse[], void>({
+            query: () => ({
+                url: "operated"
             })
         }),
 
@@ -49,6 +64,13 @@ export const tripApi = createApi({
                 url: `complete?tripId=${tripId}`,
                 method: "POST"
             })
+        }),
+
+        coordinatesDriver: builder.mutation({
+            query: (params) => ({
+                url: `operated/coordinate?operatedTripId=${params.operatedTripId}&driverId=${params.driverId}`,
+                method: "POST"
+            })
         })
     })
 });
@@ -60,5 +82,8 @@ export const {
     useAcceptTripMutation ,
     useCancelTripMutation,
     useGetTripByIdQuery,
-    useCompleteTripMutation
+    useCompleteTripMutation,
+    useGetOperatedTripQuery,
+    useBookOperatedTripMutation,
+    useCoordinatesDriverMutation
 } = tripApi;
