@@ -24,6 +24,7 @@ namespace tkpm_API.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Bill> Bills { get; set; }
+        public DbSet<OperatedTrip> OperatedTrips { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +35,7 @@ namespace tkpm_API.Data
             modelBuilder.Entity<Location>().HasKey(u => u.Id);
             modelBuilder.Entity<Trip>().HasKey(u => u.Id);
             modelBuilder.Entity<Bill>().HasKey(u => u.Id);
+            modelBuilder.Entity<OperatedTrip>().HasKey(u => u.Id);
             #endregion
 
             #region Relationships
@@ -76,6 +78,11 @@ namespace tkpm_API.Data
                         .HasOne(b => b.Trip)
                         .WithOne(t => t.Bill)
                         .HasForeignKey<Bill>(b => b.TripId);
+
+            modelBuilder.Entity<OperatedTrip>()
+                        .HasOne(ot => ot.VehicleType)
+                        .WithMany(l => l.OperatedTrips)
+                        .HasForeignKey(ot => ot.VehicleTypeId);
             #endregion
 
             #region Data
