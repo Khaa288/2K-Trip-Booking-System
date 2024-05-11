@@ -20,6 +20,8 @@ import OperatorHome from './pages/OperatorHome';
 import DriverPickUp from './components/Driver/DriverPickUp';
 import TripPayment from './components/Driver/TripPayment';
 import OperatedTrip from './pages/OperatedTripBooking';
+import AdminUsers from './components/Admin/AdminUsers';
+import AdminDrivers from './components/Admin/AdminDrivers';
 
 const router = createBrowserRouter([
   {
@@ -82,6 +84,16 @@ const router = createBrowserRouter([
   {
     path: "/operator/home",
     element: <OperatorHome/>,
+  },
+  
+  {
+    path: "/admin/users",
+    element: <AdminUsers/>,
+  },
+
+  {
+    path: "/admin/drivers",
+    element: <AdminDrivers/>,
   }
 ]);
 
