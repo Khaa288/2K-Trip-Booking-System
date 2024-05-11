@@ -12,7 +12,7 @@ interface AdminDrivers {
     email: string,
     phoneNumber: string,
     vehicalType: number,
-    verify: boolean
+    isVerified: boolean
 }
 
 interface tripStatus {
