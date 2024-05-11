@@ -45,13 +45,6 @@ namespace tkpm_server.Controllers
             return user;
         }
 
-        [HttpGet("revenue")]
-        public async Task<double> GetRevenueDaily(DateTime date)
-        {
-            var revenue = await _adminManager.GetRevenueDaily(date);
-
-            return revenue;
-        }
         [HttpPost("addDriver")]
 
         public async Task AddDriver([FromBody] AddDriverRequest request)
