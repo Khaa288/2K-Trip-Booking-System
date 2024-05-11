@@ -1,3 +1,6 @@
+﻿using System.ComponentModel.DataAnnotations;
+using tkpm_API.Entities;
+
 namespace tkpm_API.DTO.Response
 {
     public class BillResponse
