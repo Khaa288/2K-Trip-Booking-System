@@ -14,6 +14,7 @@ function RegisterDriver() {
     confirmPassword: "",
     email: ""
   });
+  const [isRegisterFail, setIsRegisterFail] = useState(false);
 
   const { data: locations } = useGetLocationsQuery();
   const { data: vehicleTypes } = useGetVehicleTypesQuery();
@@ -34,6 +35,22 @@ function RegisterDriver() {
     registerVehicle:number,
     registerLocation:number
   ) => {
+    if (password !== confirmPassword) {
+      setIsRegisterFail(true);
+      return;
+    }
+
+    if (username == "" || 
+        email == "" || 
+        password == "" || 
+        confirmPassword == "" || 
+        registerVehicle === 0 || 
+        registerLocation === 0
+    ) {
+      setIsRegisterFail(true);
+      return;
+    }
+
     var response : RegisterCustomerResponse = await registerDriver({
       fullname: "",
       username: username,
@@ -57,7 +74,7 @@ function RegisterDriver() {
           <div className="col-6 col-md-8 col-lg-6 col-xl-8">
             <div className="card bg-dark text-white" style={{borderRadius: '1rem'}}>
               <div className="card-body p-5 text-center">
-                <div className="mb-md-5 mt-md-4 pb-5">
+                <div className="mb-md-5 mt-md-4 pb-3">
                   <h2 className="fw-bold mb-2 text-uppercase">Register</h2>
                   <p className="text-white-50 mb-5">
                     Create An Account
@@ -176,6 +193,8 @@ function RegisterDriver() {
                       onChange={handleUserInput}
                     />
                   </div>
+
+                  { isRegisterFail && <div className="mb-3 text-danger">Some fields are missing please try again</div> }
 
                   <button
                     className="btn btn-outline-light btn-lg px-5"

@@ -88,6 +88,11 @@ function TripPayment() {
                                                         name="tollCost"
                                                         value={input.tollCost}
                                                         onChange={handleUserInput}
+                                                        onKeyPress={(event) => {
+                                                            if (!/[0-9]/.test(event.key)) {
+                                                                event.preventDefault();
+                                                            }
+                                                        }}
                                                     />
                                                 </div>
                                             </div>
@@ -117,6 +122,11 @@ function TripPayment() {
                                                         className="form-control form-control-sm"
                                                         name="subCharge"
                                                         value={input.subCharge}
+                                                        onKeyPress={(event) => {
+                                                            if (!/[0-9]/.test(event.key)) {
+                                                                event.preventDefault();
+                                                            }
+                                                        }}
                                                         onChange={handleUserInput}
                                                     />
                                                 </div>
@@ -156,6 +166,7 @@ function TripPayment() {
                         <div className="col-12 text-center p-5">
                             <button
                                 className="rounded border fw-bold px-3 btn btn-light mx-2 px-4"
+                                onClick={() => setIsConfirmed(false)}
                             >
                                 Cancle
                             </button>

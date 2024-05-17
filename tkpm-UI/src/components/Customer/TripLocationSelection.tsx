@@ -121,24 +121,24 @@ function LocationSelection() {
                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <button 
                                             className="dropdown-item"
-                                            value="Note example 1"
+                                            value="Drive carefully"
                                             onClick={(e) => setNote(e.currentTarget.value)}
                                         >
-                                            Note example 1
+                                            Drive carefully
                                         </button>
                                         <button 
                                             className="dropdown-item"
-                                            value="Note example 2"
+                                            value="Quick, im in a rush"
                                             onClick={(e) => setNote(e.currentTarget.value)}  
                                         >
-                                            Note example 2
+                                            Quick, im in a rush
                                         </button>
                                         <button 
                                             className="dropdown-item"
-                                            value="Note example 3"
+                                            value="I have extra luggage"
                                             onClick={(e) => setNote(e.currentTarget.value)}   
                                         >
-                                            Note example 3
+                                            I have extra luggage
                                         </button>
                                         <button 
                                             className="dropdown-item"

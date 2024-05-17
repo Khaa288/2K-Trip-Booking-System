@@ -5,6 +5,7 @@ import { useLoginMutation } from "../apis/authenticationApi";
 function Login() {
   const [username, setUsername] = useState(() => "");
   const [password, setPassword] = useState(() => "");
+  const [isLoginFail, setIsLoginFail] = useState(() => false);
   const navigate = useNavigate();
 
   const [login] = useLoginMutation();
@@ -36,6 +37,7 @@ function Login() {
     }
     else if (response.error) {
       console.log(response.error);
+      setIsLoginFail(true);
     }
   };
 
@@ -47,7 +49,7 @@ function Login() {
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card bg-dark text-white" style={{borderRadius: '1rem'}}>
               <div className="card-body p-5 text-center">
-                <div className="mb-md-5 mt-md-4 pb-5">
+                <div className="mb-md-5 mt-md-4 pb-3">
                   <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
                   <p className="text-white-50 mb-5">
                     Please enter your login and password!
@@ -72,6 +74,8 @@ function Login() {
                       onChange={(e) => {setPassword(e.target.value)}}
                     />
                   </div>
+
+                  {isLoginFail && <div className="text-danger py-1">Invalid login. please try again!</div>}
 
                   <p className="small mb-5 pb-lg-2">
                     <a className="text-white-50" href="#!">

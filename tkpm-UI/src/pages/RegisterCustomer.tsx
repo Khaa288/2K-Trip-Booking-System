@@ -11,6 +11,7 @@ function RegisterCustomer () {
     fullname: "",
     email: ""
   });
+  const [isRegisterFail, setIsRegisterFail] = useState(false);
 
   const [registerCustomer] = useRegisterCustomerMutation();
   const navigate = useNavigate();
@@ -29,6 +30,16 @@ function RegisterCustomer () {
     confirmPassword:string,
     fullName: string
   ) => {
+    if (password !== confirmPassword) {
+      setIsRegisterFail(true);
+      return;
+    }
+
+    if (username == "" || email == "" || password == "" || confirmPassword == "" || fullName == "") {
+      setIsRegisterFail(true);
+      return;
+    }
+
     var response : RegisterCustomerResponse = await registerCustomer({
       fullName: fullName,
       username: username,
@@ -117,6 +128,8 @@ function RegisterCustomer () {
                       onChange={handleUserInput}
                     />
                   </div>
+                  
+                  { isRegisterFail && <div className="mb-3 text-danger">Some fields are missing please try again</div> }
 
                   <button
                     className="btn btn-outline-light btn-lg px-5"
