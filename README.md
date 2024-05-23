@@ -1,4 +1,4 @@
-# TKPM-PROJECT
+# How to use
 **Prerequisite**
 - NodeJS and NPM are installed if not install [here](https://nodejs.org/en/download)
 - .NET SDK 7.0 is installed if not install [here](https://dotnet.microsoft.com/en-us/download/visual-studio-sdks) 
